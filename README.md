@@ -6,7 +6,6 @@
 
 <h2>Description:</h2>
 <p>
-    The <strong>srt_libsrt</strong> library provides Python bindings for the Secure Reliable Transport (SRT) protocol, enabling high-performance, reliable data transfer in real-time applications. It integrates with the native C++ SRT library using <code>pybind11</code> and exposes key functions for creating and managing SRT connections in Python.
     The <strong>srt_libsrt</strong> library provides Python bindings for the Secure Reliable Transport (SRT) protocol, 
     enabling high-performance, reliable data transfer in real-time applications. It integrates with the native C++ 
     SRT library using <code>pybind11</code> and exposes key functions for creating and managing SRT connections in Python.
