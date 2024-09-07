@@ -22,16 +22,22 @@
 
 <h2>Commands:</h2>
 <ul>
-    <li><strong>srt_startup</strong>: Initialize the SRT library</li>
-    <li><strong>srt_create_socket</strong>: Create an SRT socket</li>
-    <li><strong>srt_bind</strong>: Bind a socket to an IP and port</li>
-    <li><strong>srt_listen</strong>: Start listening on a socket</li>
-    <li><strong>srt_accept</strong>: Accept incoming connections</li>
-    <li><strong>srt_connect</strong>: Connect to a remote SRT socket</li>
-    <li><strong>srt_send</strong>: Send data through the socket</li>
-    <li><strong>srt_recv</strong>: Receive data from the socket</li>
-    <li><strong>srt_epoll_create</strong>: Create an epoll object for managing multiple sockets</li>
-    <li><strong>srt_epoll_wait</strong>: Wait for events on sockets</li>
+    <li><strong>srt_startup</strong>: Initialize the SRT library.</li>
+    <li><strong>srt_create_socket</strong>: Create an SRT socket.</li>
+    <li><strong>srt_bind</strong>: Bind a socket to an IP and port.</li>
+    <li><strong>srt_listen</strong>: Start listening on a socket.</li>
+    <li><strong>srt_accept</strong>: Accept incoming connections.</li>
+    <li><strong>srt_connect</strong>: Connect to a remote SRT socket.</li>
+    <li><strong>srt_send</strong>: Send data through the socket.</li>
+    <li><strong>srt_recv</strong>: Receive data from the socket.</li>
+    <li><strong>srt_epoll_create</strong>: Create an epoll object for managing multiple sockets.</li>
+    <li><strong>srt_epoll_wait</strong>: Wait for events on sockets.</li>
+    <li><strong>set_socket_option</strong>: Set socket options, including encryption settings.</li>
+    <li><strong>get_socket_option</strong>: Get socket options.</li>
+    <li><strong>srt_bstats</strong>: Get basic statistics of the SRT socket.</li>
+    <li><strong>srt_send_binary</strong>: Send binary data via SRT socket.</li>
+    <li><strong>srt_recv_as_bytes</strong>: Receive data as bytes from the SRT socket.</li>
+    <li><strong>srt_cleanup</strong> :Cleanup the SRT library.Encrypted stream support: Configure and manage encrypted streams, including setting encryption options (SRTO_PASSPHRASE and SRTO_CRYPTOMODE) to enable encrypted data transmission over SRT.</li>
 </ul>
 
 <h2>Installation:</h2>
