@@ -37,7 +37,8 @@
     <li><strong>srt_bstats</strong>: Get basic statistics of the SRT socket.</li>
     <li><strong>srt_send_binary</strong>: Send binary data via SRT socket.</li>
     <li><strong>srt_recv_as_bytes</strong>: Receive data as bytes from the SRT socket.</li>
-    <li><strong>srt_cleanup</strong> :Cleanup the SRT library.Encrypted stream support: Configure and manage encrypted streams, including setting encryption options (SRTO_PASSPHRASE and SRTO_CRYPTOMODE) to enable encrypted data transmission over SRT.</li>
+    <li><strong>srt_cleanup</strong> :Cleanup the SRT library.</li>
+    <li><strong>Encrypted stream support: Configure and manage encrypted streams, including setting encryption options (SRTO_PASSPHRASE and SRTO_CRYPTOMODE) to enable encrypted data transmission over SRT.</li>
 </ul>
 
 <h2>Installation:</h2>
