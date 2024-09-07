@@ -36,7 +36,7 @@
 
 <h2>Installation:</h2>
 <p>
-    Download the precompiled <code>.so</code> file and place it in your Python project directory.
+    Download the precompiled <code>.so</code> file and place it in your Python project directory. import srt_libsrt .
 </p>
 
 <h2>Usage Example:</h2>
