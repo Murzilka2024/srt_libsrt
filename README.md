@@ -1,52 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>srt_libsrt - Python Bindings for SRT Library</title>
-</head>
-<body>
-    <h1>srt_libsrt - Python Bindings for SRT Library</h1>
+srt_libsrt - Python Bindings for SRT Library
+Version: 1.0.0
+Platform: Ubuntu 14.10
 
-    <h2>Version:</h2>
-    <p>1.0.0</p>
+Description:
+srt_libsrt provides Python bindings for the Secure Reliable Transport (SRT) protocol, enabling high-performance, reliable data transfer in real-time applications. It integrates with the native C++ SRT library using pybind11 and exposes key functions for creating and managing SRT connections in Python.
 
-    <h2>Platform:</h2>
-    <p>Ubuntu 14.10</p>
-
-    <h2>Description:</h2>
-    <p>
-        The <strong>srt_libsrt</strong> library provides Python bindings for the Secure Reliable Transport (SRT) protocol, 
-        enabling high-performance, reliable data transfer in real-time applications. It integrates with the native C++ 
-        SRT library using <code>pybind11</code> and exposes key functions for creating and managing SRT connections in Python.
-    </p>
-
-    <h2>Features:</h2>
-    <ul>
-        <li>Create and manage SRT sockets</li>
-        <li>Send and receive messages over SRT</li>
-        <li>Bind, connect, listen, and accept SRT sockets</li>
-        <li>Set and get socket options</li>
-        <li>Use epoll for event-driven socket management</li>
-    </ul>
-
-    <h2>Commands:</h2>
-    <ul>
-        <li><strong>srt_startup</strong>: Initialize the SRT library</li>
-        <li><strong>srt_create_socket</strong>: Create an SRT socket</li>
-        <li><strong>srt_bind</strong>: Bind a socket to an IP and port</li>
-        <li><strong>srt_listen</strong>: Start listening on a socket</li>
-        <li><strong>srt_accept</strong>: Accept incoming connections</li>
-        <li><strong>srt_connect</strong>: Connect to a remote SRT socket</li>
-        <li><strong>srt_send</strong>: Send data through the socket</li>
-        <li><strong>srt_recv</strong>: Receive data from the socket</li>
-        <li><strong>srt_epoll_create</strong>: Create an epoll object for managing multiple sockets</li>
-        <li><strong>srt_epoll_wait</strong>: Wait for events on sockets</li>
-    </ul>
-
-    <h2>Installation:</h2>
-    <p>
-        Download the precompiled <code>.so</code> file and place it in your Python project directory.
-    </p>
-</body>
-</html>
+Features:
+Create and manage SRT sockets
+Send and receive messages over SRT
+Bind, connect, listen, and accept SRT sockets
+Set and get socket options
+Use epoll for event-driven socket management
+Commands:
+srt_startup: Initialize the SRT library
+srt_create_socket: Create an SRT socket
+srt_bind: Bind a socket to an IP and port
+srt_listen: Start listening on a socket
+srt_accept: Accept incoming connections
+srt_connect: Connect to a remote SRT socket
+srt_send: Send data through the socket
+srt_recv: Receive data from the socket
+srt_epoll_create: Create an epoll object for managing multiple sockets
+srt_epoll_wait: Wait for events on sockets
+Installation:
+Download the precompiled .so file and place it in your Python project directory.
