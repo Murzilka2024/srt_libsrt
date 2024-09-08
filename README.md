@@ -47,7 +47,8 @@ This makes it an excellent fit for projects requiring secure, low-latency, and r
 
 <h2>Installation:</h2>
 <p>
-    Download the precompiled <code>.so</code> file and place it in your Python project directory.
+    Download the precompiled <code>.so</code> file and place it in your Python project directory. 
+    <code>pip install git+https://github.com/Murzilka2024/srt_libsrt.git</code>
 </p>
 
 ## Usage Example
