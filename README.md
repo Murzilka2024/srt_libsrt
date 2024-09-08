@@ -6,9 +6,13 @@
 
 <h2>Description:</h2>
 <p>
-    The <strong>srt_libsrt</strong> library provides Python bindings for the Secure Reliable Transport (SRT) protocol, 
-    enabling high-performance, reliable data transfer in real-time applications. It integrates with the native C++ 
-    SRT library using <code>pybind11</code> and exposes key functions for creating and managing SRT connections in Python.
+The <strong>srt_libsrt</strong> library provides Python bindings for the <strong>Secure Reliable Transport (SRT) protocol</strong>, enabling developers to handle real-time, high-performance, and reliable data transfer. This library integrates SRT's native C++ functions using <code>pybind11</code>, allowing Python applications to create, manage, and control SRT connections seamlessly. It supports UDP and MPEG-TS <strong>(MPEG Transport Stream)</strong> formats, making it ideal for streaming applications.
+
+With built-in encryption support, it secures data transmission over SRT. The library is easy to incorporate into projects requiring real-time video, audio, or data transmission. Developers can manage socket options, send/receive data, and configure encryption with minimal effort.
+
+For a basic use case, create an SRT socket, bind it to an IP, listen for incoming connections, and transfer data using the <code>srt_send</code> and <code>srt_recv</code> methods. The library also supports epoll for managing multiple sockets, enabling event-driven architecture for high-performance networked applications.
+
+This makes it an excellent fit for projects requiring secure, low-latency, and reliable video streaming or real-time communications over unreliable networks, like live broadcasts or remote media distribution.
 </p>
 
 <h2>Features:</h2>
