@@ -57,17 +57,6 @@ sock = srt_libsrt.srt_create_socket()
 srt_libsrt.srt_bind(sock, "127.0.0.1", 9999)
 </code></pre>
 
-<h2>Installation:</h2>
-<p>
-    Download the precompiled <code>.so</code> file and place it in your Python project directory. 
-    
-    import srt_libsrt
-    
-    srt_libsrt.srt_startup()
-    sock = srt_libsrt.srt_create_socket()
-    srt_libsrt.srt_bind(sock, "127.0.0.1", 9999)
-</p>
-
 <h2>Usage Example:</h2>
 <pre>
 <code>
