@@ -2,7 +2,7 @@
 <p>1.0.0</p>
 
 <h2>Platform:</h2>
-<p>Ubuntu 14.10</p>
+<p>Ubuntu 14.10 x86_64-linux </p>
 
 <h2>Description:</h2>
 <p>
