@@ -49,58 +49,49 @@ This makes it an excellent fit for projects requiring secure, low-latency, and r
 <p>
     Download the precompiled <code>.so</code> file and place it in your Python project directory.
 </p>
-<pre><code>
-import srt_libsrt
 
-srt_libsrt.srt_startup()
-sock = srt_libsrt.srt_create_socket()
-srt_libsrt.srt_bind(sock, "127.0.0.1", 9999)
-</code></pre>
+## Usage Example
 
-<h2>Usage Example:</h2>
-<pre>
-<code>
+```python
 import srt_libsrt
 import logging
 
-
+# Set up logging
 logging.basicConfig(level=logging.INFO)
 
 def run_srt_server(ip, port):
-    // Initialize the SRT library
+    # Initialize the SRT library
     srt_libsrt.srt_startup()
 
     try:
-        // Create an SRT socket
+        # Create an SRT socket
         server_sock = srt_libsrt.srt_create_socket()
 
-        // Bind the socket to IP and port
+        # Bind the socket to IP and port
         srt_libsrt.srt_bind(server_sock, ip, port)
         logging.info(f"Bound to {ip}:{port}")
 
-        // Start listening for incoming connections
+        # Start listening for incoming connections
         srt_libsrt.srt_listen(server_sock, backlog=1)
         logging.info(f"Listening on {ip}:{port}")
 
-        // Accept an incoming connection
+        # Accept an incoming connection
         client_sock, client_ip = srt_libsrt.srt_accept(server_sock)
         logging.info(f"Accepted connection from {client_ip}")
 
-        // Receive data from the client
+        # Receive data from the client
         while True:
             data = srt_libsrt.srt_recv_as_bytes(client_sock, 1316)
             if not data:
                 break
             logging.info(f"Received data: {len(data)} bytes")
 
-        // Close client socket
+        # Close client socket
         srt_libsrt.srt_close(client_sock)
     finally:
-        // Cleanup the SRT socket and library
+        # Cleanup the SRT socket and library
         srt_libsrt.srt_close(server_sock)
         srt_libsrt.srt_cleanup()
 
 if __name__ == "__main__":
     run_srt_server("0.0.0.0", 5055)
-
-</code>
