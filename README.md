@@ -56,43 +56,133 @@ This makes it an excellent fit for projects requiring secure, low-latency, and r
 ```python
 import srt_libsrt
 import logging
+import time
+import socket
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 
-def run_srt_server(ip, port):
-    # Initialize the SRT library
-    srt_libsrt.srt_startup()
+class SRTHandler:
+    def __init__(self):
+        # Initialize the SRT library
+        srt_libsrt.srt_startup()
+        logging.info("SRT library initialized successfully.")
+
+    def create_socket(self):
+        # Create an SRT socket
+        sock = srt_libsrt.srt_create_socket()
+        if sock < 0:
+            logging.error("Failed to create SRT socket.")
+            raise Exception("Failed to create SRT socket.")
+        return sock
+
+    def configure_socket_options(self, sock, passphrase=None, latency=2000, payload_size=1456, recv_buffer_size=104857600, send_buffer_size=104857600):
+        # Configure various socket options, including payload size and latency
+        try:
+            srt_libsrt.set_socket_option(sock, "SRTO_PAYLOADSIZE", payload_size)
+            logging.info(f"SRT payload size set to: {payload_size}")
+
+            srt_libsrt.set_socket_option(sock, "SRTO_LATENCY", latency)
+            srt_libsrt.set_socket_option(sock, "SRTO_RCVLATENCY", latency)
+            srt_libsrt.set_socket_option(sock, "SRTO_PEERLATENCY", latency)
+            logging.info(f"SRT latency set to: {latency} ms (both RCV and PEER)")
+
+            if passphrase:
+                srt_libsrt.set_socket_option(sock, "SRTO_PASSPHRASE", passphrase)
+                logging.info(f"SRT encryption configured with passphrase.")
+
+            srt_libsrt.set_socket_option(sock, "SRTO_RCVBUF", recv_buffer_size)
+            srt_libsrt.set_socket_option(sock, "SRTO_SNDBUF", send_buffer_size)
+            logging.info(f"Receive buffer size set to: {recv_buffer_size}")
+            logging.info(f"Send buffer size set to: {send_buffer_size}")
+
+            srt_libsrt.set_socket_option(sock, "SRTO_TRANSTYPE", 1)  # Live mode
+            logging.info("SRTO_TRANSTYPE set to 'live' (1)")
+
+            srt_libsrt.set_socket_option(sock, "SRTO_CONGESTION", "live")
+            logging.info("SRT congestion control set to 'live'")
+
+            srt_libsrt.set_socket_option(sock, "SRTO_TSBPDMODE", True)
+            logging.info("SRT TSBPD mode enabled")
+
+            srt_libsrt.set_socket_option(sock, "SRTO_MESSAGEAPI", True)
+            logging.info("SRT MESSAGE API mode enabled")
+
+            srt_libsrt.set_socket_option(sock, "SRTO_NAKREPORT", True)
+            logging.info("SRT NAK report enabled")
+
+        except Exception as e:
+            logging.error(f"Failed to set SRT socket options: {e}")
+
+    def connect(self, sock, address, port):
+        srt_libsrt.srt_connect(sock, address, port)
+        logging.info(f"Connected to SRT source at {address}:{port}")
+
+    def bind_socket(self, sock, address, port):
+        srt_libsrt.srt_bind(sock, address, port)
+        srt_libsrt.srt_listen(sock, 1)
+        logging.info(f"SRT socket bound to {address}:{port} and listening.")
+
+    def accept_client(self, sock):
+        client_sock, client_addr = srt_libsrt.srt_accept(sock)
+        if client_sock < 0:
+            logging.error("Failed to accept SRT client.")
+            raise Exception("SRT accept error.")
+        logging.info(f"SRT client connected from {client_addr}")
+        return client_sock
+
+    def close_socket(self, sock):
+        if sock < 0:
+            logging.error("Attempt to close an invalid socket.")
+            return
+        srt_libsrt.srt_close(sock)
+        logging.info("SRT socket closed.")
+
+    def srt_recv_data(self, sock, buffer_size):
+        return srt_libsrt.srt_recv_as_bytes(sock, buffer_size)
+
+    def srt_send_data(self, sock, data):
+        try:
+            srt_libsrt.srt_send(sock, data)
+        except Exception as e:
+            logging.error(f"Failed to send data over SRT: {e}")
+
+    def create_udp_socket(self, interface_ip, output_host, output_port):
+        try:
+            udp_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            udp_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            if interface_ip:
+                udp_sock.setsockopt(socket.SOL_IP, socket.IP_MULTICAST_IF, socket.inet_aton(interface_ip))
+                udp_sock.bind((interface_ip, 0))
+                logging.info(f"UDP socket bound to interface {interface_ip}")
+            else:
+                logging.info("UDP socket bound to default interface.")
+            return udp_sock
+        except Exception as e:
+            logging.error(f"Failed to create UDP socket: {e}")
+            raise
+
+    def udp_send_data(self, udp_sock, data, output_host, output_port):
+        try:
+            udp_sock.sendto(data, (output_host, output_port))
+        except Exception as e:
+            logging.error(f"Failed to send UDP data: {e}")
+            raise
+
+if __name__ == "__main__":
+    # Sample run of SRT server with configuration
+    handler = SRTHandler()
+    server_sock = handler.create_socket()
+    handler.bind_socket(server_sock, "0.0.0.0", 5055)
+    handler.configure_socket_options(server_sock, passphrase="your_passphrase")
 
     try:
-        # Create an SRT socket
-        server_sock = srt_libsrt.srt_create_socket()
-
-        # Bind the socket to IP and port
-        srt_libsrt.srt_bind(server_sock, ip, port)
-        logging.info(f"Bound to {ip}:{port}")
-
-        # Start listening for incoming connections
-        srt_libsrt.srt_listen(server_sock, backlog=1)
-        logging.info(f"Listening on {ip}:{port}")
-
-        # Accept an incoming connection
-        client_sock, client_ip = srt_libsrt.srt_accept(server_sock)
-        logging.info(f"Accepted connection from {client_ip}")
-
-        # Receive data from the client
+        client_sock = handler.accept_client(server_sock)
         while True:
-            data = srt_libsrt.srt_recv_as_bytes(client_sock, 1316)
+            data = handler.srt_recv_data(client_sock, 1316)
             if not data:
                 break
             logging.info(f"Received data: {len(data)} bytes")
-
-        # Close client socket
-        srt_libsrt.srt_close(client_sock)
     finally:
-        # Cleanup the SRT socket and library
-        srt_libsrt.srt_close(server_sock)
-        srt_libsrt.srt_cleanup()
-
-if __name__ == "__main__":
-    run_srt_server("0.0.0.0", 5055)
+        handler.close_socket(client_sock)
+        handler.close_socket(server_sock)
