@@ -1,31 +1,24 @@
 from setuptools import setup, find_packages
-from setuptools.command.install import install
 import shutil
 import os
 
-class CustomInstallCommand(install):
-    def run(self):
-        # Выполняем стандартную установку
-        install.run(self)
-        
-        # Путь к файлу .so
-        so_file = 'srt_libsrt.cpython-37m-x86_64-linux-gnu.so'
-        # Директория установки
-        target_dir = self.install_lib
-        
-        # Копируем .so файл в директорию установки, если файл существует
-        if os.path.exists(so_file):
-            shutil.copy(so_file, target_dir)
-            print(f"Файл {so_file} успешно скопирован в {target_dir}.")
-        else:
-            print(f"Файл {so_file} не найден!")
+# Название модуля
+MODULE_NAME = "srt_libsrt"
+SO_FILE = "srt_libsrt.cpython-37m-x86_64-linux-gnu.so"
+
+# Создаём папку `srt_libsrt`, если её нет
+if not os.path.exists(MODULE_NAME):
+    os.mkdir(MODULE_NAME)
+
+# Копируем `.so` в `srt_libsrt/`
+if os.path.exists(SO_FILE):
+    shutil.copy(SO_FILE, MODULE_NAME)
+    print(f"✅ Файл {SO_FILE} скопирован в {MODULE_NAME}/")
 
 setup(
-    name='srt_libsrt',
-    version='0.1',
-    packages=find_packages(),
-    cmdclass={'install': CustomInstallCommand},
-    package_data={
-        '': ['srt_libsrt.cpython-37m-x86_64-linux-gnu.so'],
-    },
+    name=MODULE_NAME,
+    version="0.1",
+    packages=[MODULE_NAME],  # 📌 Указываем пакет вручную
+    package_data={MODULE_NAME: ["*.so"]},  # 📌 Включаем `.so`
+    include_package_data=True,
 )
